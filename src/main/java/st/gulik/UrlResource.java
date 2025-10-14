@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 @Path("/")
@@ -24,13 +25,12 @@ public class UrlResource {
 
     @GET
     @Path("/{shortUrlKey}")
-    public Response expandEndpoint(@PathParam("shortUrlKey") String shortUrlKey) {
-
+    public Response expandEndpoint(@PathParam("shortUrlKey") String shortUrlKey) throws URISyntaxException {
         Optional<String> originalUrlOpt = service.getOriginalUrl(shortUrlKey);
 
         if (originalUrlOpt.isPresent()) {
             return Response.status(Response.Status.FOUND)
-                    .location(URI.create(originalUrlOpt.get()))
+                    .location(new URI(originalUrlOpt.get()))
                     .build();
         } else {
             return Response.status(Response.Status.NOT_FOUND)
