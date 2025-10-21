@@ -17,7 +17,6 @@ public class UrlResource {
 
     @Inject
     private UrlShortenerService service;
-    //TODO: make service private
 
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
