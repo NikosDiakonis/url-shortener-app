@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UrlResource {
 
     @Inject
-    UrlShortenerService service;
+    private UrlShortenerService service;
     //TODO: make service private
 
     @POST
