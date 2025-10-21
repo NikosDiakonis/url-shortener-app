@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @ApplicationScoped
 @Path("/")
-//TODO:make it application scoped bean
+
 public class UrlResource {
 
     @Inject
