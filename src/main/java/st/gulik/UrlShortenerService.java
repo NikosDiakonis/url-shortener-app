@@ -16,8 +16,8 @@ public class UrlShortenerService {
     @Inject
     UrlRepository repository;
     @Inject
-    KeyGenerator keyGenerator;
-    //TODO: make private
+    private KeyGenerator keyGenerator;
+
 
 
     public String shortener(String originalUrl) {
