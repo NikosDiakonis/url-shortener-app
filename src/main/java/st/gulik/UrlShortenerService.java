@@ -20,7 +20,7 @@ public class UrlShortenerService {
 
 
 
-    public String shortener(String originalUrl) {
+    public String shorten(String originalUrl) {
         //TODO: rename to shorten
         if (repository.findByOriginalUrl(originalUrl).isPresent()) {
             return baseUrl + repository.findByOriginalUrl(originalUrl).get();

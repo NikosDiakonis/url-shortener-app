@@ -23,7 +23,7 @@ public class UrlResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response shortenEndpoint(String urlToShorten) {
 
-        String shortUrl = service.shortener(urlToShorten);
+        String shortUrl = service.shorten(urlToShorten);
         return Response.ok(shortUrl).build();
     }
 
