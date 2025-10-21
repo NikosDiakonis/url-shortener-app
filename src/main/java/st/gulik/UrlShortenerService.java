@@ -10,14 +10,17 @@ import java.util.Optional;
 public class UrlShortenerService {
 
     private static final String BASE_URL = "www.minimise.com/";
+    //TODO: Retrieve from properties
 
     @Inject
     UrlRepository repository;
     @Inject
     KeyGenerator keyGenerator;
+    //TODO: make private
 
 
     public String shortener(String originalUrl) {
+        //TODO: rename to shorten
         if (repository.findByOriginalUrl(originalUrl).isPresent()) {
             return BASE_URL + repository.findByOriginalUrl(originalUrl).get();
         } else {

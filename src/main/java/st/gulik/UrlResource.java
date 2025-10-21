@@ -1,18 +1,23 @@
 package st.gulik;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+@ApplicationScoped
 @Path("/")
+//TODO:make it application scoped bean
 public class UrlResource {
 
     @Inject
     UrlShortenerService service;
+    //TODO: make service private
 
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
