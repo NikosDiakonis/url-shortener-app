@@ -8,7 +8,7 @@ import java.util.Random;
 public class KeyGenerator {
 
     @Inject
-    UrlRepository repository;
+    InMemoryUrlRepository repository;
 
     public String generateKey(String originalUrl) {
         int urlToInteger = originalUrl.hashCode();

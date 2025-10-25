@@ -14,19 +14,18 @@ public class UrlShortenerService {
     private String baseUrl;
 
     @Inject
-    UrlRepository repository;
+    InMemoryUrlRepository repository;
     @Inject
     private KeyGenerator keyGenerator;
 
 
 
     public String shorten(String originalUrl) {
-        //TODO: rename to shorten
         if (repository.findByOriginalUrl(originalUrl).isPresent()) {
             return baseUrl + repository.findByOriginalUrl(originalUrl).get();
         } else {
            String  miniUrlKey = keyGenerator.generateKey(originalUrl);
-           repository.save(miniUrlKey,originalUrl);
+            repository.save(miniUrlKey,originalUrl);
             return baseUrl + miniUrlKey;
         }
     }
