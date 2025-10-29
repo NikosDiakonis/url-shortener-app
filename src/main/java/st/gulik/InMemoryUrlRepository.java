@@ -1,10 +1,13 @@
 package st.gulik;
 
+import io.quarkus.arc.DefaultBean;
 import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@DefaultBean
 @ApplicationScoped
 public class InMemoryUrlRepository implements UrlRepository {
 
