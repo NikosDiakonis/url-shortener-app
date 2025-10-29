@@ -1,42 +1,43 @@
 package st.gulik;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Primary; // Βεβαιώσου ότι υπάρχει αυτό το import
+import jakarta.enterprise.inject.Alternative;
 import jakarta.transaction.Transactional;
+import jakarta.annotation.Priority;
+
+
 import java.util.Optional;
 
-@Primary // Η σήμανση προτίμησης
 @ApplicationScoped
-public class DatabaseUrlRepository implements UrlRepository { // Υλοποιεί το interface
+@Alternative
+@Priority(1)
+public class DatabaseUrlRepository implements UrlRepository {
 
     @Override
-    @Transactional // Σημαντικό για εγγραφή/αλλαγή δεδομένων
+    @Transactional // Ensures the save operation happens within a database transaction
     public void save(String key, String originalUrl) {
         UrlMapping mapping = new UrlMapping();
         mapping.shortKey = key;
         mapping.originalUrl = originalUrl;
-        mapping.persist(); // Η μαγεία του Panache για INSERT
+        mapping.persist(); // Saves the object to the database
     }
 
     @Override
     public Optional<String> findByKey(String key) {
-        // Η μαγεία του Panache για SELECT ... WHERE shortKey = ?
-        return UrlMapping.<UrlMapping>find("shortKey", key)
-                .firstResultOptional() // Παίρνει το πρώτο (αν υπάρχει) ως Optional<UrlMapping>
-                .map(mapping -> mapping.originalUrl); // Παίρνει το originalUrl αν βρέθηκε
+        Optional<UrlMapping> optionalMapping =
+                UrlMapping.find("shortKey", key).firstResultOptional();
+        return optionalMapping.map(mapping -> mapping.originalUrl);
     }
 
     @Override
     public Optional<String> findByOriginalUrl(String originalUrl) {
-        // Η μαγεία του Panache για SELECT ... WHERE originalUrl = ?
-        return UrlMapping.<UrlMapping>find("originalUrl", originalUrl)
-                .firstResultOptional()
-                .map(mapping -> mapping.shortKey); // Παίρνει το shortKey αν βρέθηκε
+        Optional<UrlMapping> optionalMapping =
+                UrlMapping.find("originalUrl", originalUrl).firstResultOptional();
+        return optionalMapping.map(mapping -> mapping.shortKey);
     }
 
     @Override
     public boolean keyExists(String key) {
-        // Η μαγεία του Panache για SELECT COUNT(*) ... WHERE shortKey = ?
         return UrlMapping.count("shortKey", key) > 0;
     }
-} // <-- Βεβαιώσου ότι αυτή είναι η ΤΕΛΕΥΤΑΙΑ αγκύλη του αρχείου!
+}
