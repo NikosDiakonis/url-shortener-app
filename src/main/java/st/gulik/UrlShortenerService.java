@@ -14,7 +14,7 @@ public class UrlShortenerService {
     private String baseUrl;
 
     @Inject
-    InMemoryUrlRepository repository;
+    private UrlRepository repository;
     @Inject
     private KeyGenerator keyGenerator;
 
@@ -24,7 +24,7 @@ public class UrlShortenerService {
         if (repository.findByOriginalUrl(originalUrl).isPresent()) {
             return baseUrl + repository.findByOriginalUrl(originalUrl).get();
         } else {
-           String  miniUrlKey = keyGenerator.generateKey(originalUrl);
+            String  miniUrlKey = keyGenerator.generateKey(originalUrl);
             repository.save(miniUrlKey,originalUrl);
             return baseUrl + miniUrlKey;
         }
