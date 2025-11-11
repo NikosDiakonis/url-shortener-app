@@ -1,5 +1,10 @@
-*
-!build/*-runner
-!build/*-runner.jar
-!build/lib/*
-!build/quarkus-app/*
+# Ignore Gradle build artifacts
+
+.gradle/
+
+# Ignore IDE settings
+.idea/
+*.iml
+
+# Ignore local log files
+*.log
