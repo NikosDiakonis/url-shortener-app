@@ -1,41 +1,26 @@
 version: '3.8'
 
 services:
-  # 1. Η Υπηρεσία της Εφαρμογής μας
   app:
-    # "Χτίσε" την εφαρμογή χρησιμοποιώντας το Dockerfile σε αυτόν τον φάκελο
     build:
       context: .
       dockerfile: src/main/docker/Dockerfile.jvm
     container_name: url-shortener-app
-
-    # Κάνε "γέφυρα" την πόρτα 8080 του υπολογιστή μας με την πόρτα 8080 του container
     ports:
       - "8080:8080"
-    # Εξάρτηση: Μην ξεκινήσεις την εφαρμογή, αν δεν έχει ξεκινήσει πρώτα η βάση
     depends_on:
       - db
-    # Οι ρυθμίσεις (environment variables) που θα στείλουμε στην εφαρμογή
-    # Αυτές "υπερισχύουν" των ρυθμίσεων στο application.properties
     environment:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://db:5432/quarkus_test
-      # Σημείωση: Τα username/password τα παίρνει από το application.properties
 
-  # 2. Η Υπηρεσία της Βάσης Δεδομένων
   db:
-    # Χρησιμοποίησε την επίσημη εικόνα (image) της PostgreSQL, έκδοση 16
     image: postgres:16
     container_name: url-shortener-db
-    # Ρυθμίσεις για τη βάση: username, password, και όνομα βάσης
     environment:
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_PASSWORD=adminadmin
       - POSTGRES_DB=quarkus_test
-    # Κάνε "γέφυρα" την πόρτα 5433 του υπολογιστή μας με την πόρτα 5432 της βάσης
-    # (Βάζουμε 5433 για να μην "πέσουμε" πάνω σε άλλη PostgreSQL που μπορεί να τρέχει)
     ports:
       - "5433:5432"
-    # Αποθήκευση: Κάνε τα δεδομένα της βάσης "μόνιμα"
-    # αποθηκεύοντάς τα σε έναν φάκελο "db-data" στον υπολογιστή μας.
     volumes:
       - ./db-data:/var/lib/postgresql/data
